@@ -1,0 +1,31 @@
+﻿@model IEnumerable<LibraryManagerFrontMvc.Models.LivreViewModel>
+
+@{
+    ViewData["Title"] = "Liste des Livres";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Auteur</th>
+        <th>Nb de pages</th>
+        <th>Date de sortie</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Nom</td>
+            <td>@item.Auteur</td>
+            <td>@item.NbPages</td>
+            <td>@item.DateDeSortie</td>
+        </tr>
+    }
+    </tbody>
+</table>

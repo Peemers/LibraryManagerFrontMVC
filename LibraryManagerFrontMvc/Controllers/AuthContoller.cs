@@ -1,5 +1,7 @@
-﻿using LibraryManagerFrontMvc.Interfaces.Services;
+﻿using System.Security.Claims;
+using LibraryManagerFrontMvc.Interfaces.Services;
 using LibraryManagerFrontMvc.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagerFrontMvc.Controllers;
@@ -7,7 +9,7 @@ namespace LibraryManagerFrontMvc.Controllers;
 public class AuthController : Controller
 {
   private readonly IAuthService _authService;
-  
+
   public AuthController(IAuthService authService)
   {
     _authService = authService;
@@ -28,11 +30,22 @@ public class AuthController : Controller
     }
 
     var result = await _authService.LoginAsync(model);
-    if (result == null)
+    if (result != null)
     {
-      return RedirectToAction("Index", "Home");
+      var claims = new List<Claim>
+      {
+        new Claim(ClaimTypes.Email, result.User.Email),
+        new Claim(ClaimTypes.Name, result.User.FirstName),
+      };
+
+      var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
+
+      await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity));
+
+      return RedirectToAction("Index", "Livre");
     }
-    ModelState.AddModelError(string.Empty,"Email ou mot de passe incorrecte");
+
+    ModelState.AddModelError(string.Empty, "Email ou mot de passe incorrecte");
     return View(model);
   }
 }
