@@ -10,6 +10,12 @@ builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
 {
  client.BaseAddress = new Uri(apiBaseUrl ?? throw new InvalidOperationException("Api BaseUrl manquante"));
 });
+builder.Services.AddAuthentication("CookieAuth")
+  .AddCookie("CookieAuth", config =>
+  {
+    config.Cookie.Name = "UserToken";
+    config.LoginPath = "/Auth/Login";
+  });
 
 var app = builder.Build();
 
@@ -24,6 +30,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
