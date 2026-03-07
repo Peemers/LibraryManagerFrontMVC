@@ -13,13 +13,7 @@ public class AuthService : IAuthService
   {
     _httpClient = httpClient;
   }
-
   public async Task<LoginResponceDto?> LoginAsync(LoginViewModel model)
-  {
-    return null;
-  }
-
-  public async Task<LoginResponceDto> LoginAsync(LoginRequestDto model)
   {
     LoginRequestDto loginRequest = new LoginRequestDto
     {
