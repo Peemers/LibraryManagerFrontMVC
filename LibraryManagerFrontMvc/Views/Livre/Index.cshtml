@@ -8,24 +8,38 @@
 
 
 
-<table>
-    <thead>
-    <tr>
-        <th>Nom</th>
-        <th>Auteur</th>
-        <th>Nb de pages</th>
-        <th>Date de sortie</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Nom</td>
-            <td>@item.Auteur</td>
-            <td>@item.NbPages</td>
-            <td>@item.DateDeSortie</td>
-        </tr>
-    }
-    </tbody>
-</table>
+@* <table> *@
+@*     <thead> *@
+@*     <tr> *@
+@*         <th>Nom</th> *@
+@*         <th>Auteur</th> *@
+@*         <th>Nb de pages</th> *@
+@*         <th>Date de sortie</th> *@
+@*     </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@*     @foreach (var item in Model) *@
+@*     { *@
+@*         <tr> *@
+@*             <td>@item.Nom</td> *@
+@*             <td>@item.Auteur</td> *@
+@*             <td>@item.NbPages</td> *@
+@*             <td>@item.DateDeSortie</td> *@
+@*         </tr> *@
+@*     } *@
+@*     </tbody> *@
+@* </table> *@
+
+@foreach (var item in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@item.Nom</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">@item.Auteur</h6>
+            <p class="card-text">@item.DateDeSortie</p>
+            @* <a href="#" class="card-link">Card link</a> *@
+            @* <a href="#" class="card-link">Another link</a> *@
+        </div>
+    </div>
+}
+
