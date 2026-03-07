@@ -28,4 +28,22 @@ public class AuthService : IAuthService
     }
     return null;
   }
+
+  public async Task<UserResponceDto?> CreateUser(RegisterViewModel model)
+  {
+    RegisterRequestDto registerRequest = new RegisterRequestDto
+    {
+      Email = model.Email,
+      Password = model.Password,
+      FirstName = model.FirstName,
+      LastName = model.LastName
+    };
+
+    var response = await _httpClient.PostAsJsonAsync("api/User/CreateUser", registerRequest);
+    if (response.IsSuccessStatusCode)
+    {
+      return await response.Content.ReadFromJsonAsync<UserResponceDto>();
+    }
+    return null;
+  }
 }
