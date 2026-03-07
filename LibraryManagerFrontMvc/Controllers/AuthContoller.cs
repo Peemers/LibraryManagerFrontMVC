@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagerFrontMvc.Controllers;
 
-public class AuthContoller : Controller
+public class AuthController : Controller
 {
   private readonly IAuthService _authService;
   
-  public AuthContoller(IAuthService authService)
+  public AuthController(IAuthService authService)
   {
     _authService = authService;
   }
