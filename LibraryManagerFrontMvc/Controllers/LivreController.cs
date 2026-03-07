@@ -1,4 +1,5 @@
-﻿using LibraryManagerFrontMvc.Models;
+﻿using LibraryManagerFrontMvc.Interfaces.Services;
+using LibraryManagerFrontMvc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,16 +8,40 @@ namespace LibraryManagerFrontMvc.Controllers;
 [Authorize]
 public class LivreController : Controller
 {
-  private static List<LivreViewModel> _allLivres = new List<LivreViewModel>();
-  private readonly string _apiUrl = "http://localhost:5001/api/Livre";
+  private readonly ILivreService _livre;
+
+  public LivreController(ILivreService livre)
+  {
+    _livre = livre;
+  }
+  
   public async Task<IActionResult> Index()
   {
-    if (_allLivres.Count == 0)
-    {
-      HttpClient client = new HttpClient();
-      var response = await client.GetFromJsonAsync<List<LivreViewModel>>(_apiUrl);
-      _allLivres = response ?? new List<LivreViewModel>();
-    }
-    return View(_allLivres);
+    var livres = await _livre.GetAllLivresAsync();
+    
+    return View(livres ?? new List<LivreViewModel>());
   }
+  
+  [HttpGet]
+  public IActionResult Create()
+  {
+    return View();
+  }
+
+  [HttpPost]
+  public async Task<IActionResult> Create(LivreViewModel model)
+  {
+    if (!ModelState.IsValid)
+    {
+      return View(model);
+    }
+    var result = await _livre.CreateLivreAsync(model);
+    if (result != null)
+    {
+      TempData["Succes"] = "Livre bien ajouté";
+      return RedirectToAction("Index");
+    }
+    ModelState.AddModelError("", "Creation Failed");
+    return View(model);
+  } 
 }

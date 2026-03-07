@@ -6,10 +6,18 @@ var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
 {
  client.BaseAddress = new Uri(apiBaseUrl ?? throw new InvalidOperationException("Api BaseUrl manquante"));
 });
+
+builder.Services.AddHttpClient<ILivreService, LivreService>(client =>
+{
+  client.BaseAddress = new Uri(apiBaseUrl ?? throw new InvalidOperationException("Api BaseUrl manquante"));
+});
+
+
 builder.Services.AddAuthentication("CookieAuth")
   .AddCookie("CookieAuth", config =>
   {
