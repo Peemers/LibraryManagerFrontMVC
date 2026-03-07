@@ -12,11 +12,11 @@ public class LoginViewModel
   public required string Email { get; set; } = string.Empty;
   
   [Required(ErrorMessage = "Password is required")]
-  [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$", 
+  [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+#=]).{6,20}$", 
     ErrorMessage = "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.")]
   [MinLength(6, ErrorMessage = "Min Length is 6")]
   [MaxLength(20, ErrorMessage = "Max Length is 20")]
-  [Display(Name = "Mot de passe")]
   [DataType(DataType.Password)]
+  [Display(Name = "Mot de passe")]
   public required string Password { get; set; } =  string.Empty;
 }
