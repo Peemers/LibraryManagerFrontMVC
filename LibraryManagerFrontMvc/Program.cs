@@ -9,6 +9,7 @@ var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"]
 
 #region Services
 
+builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(option =>
@@ -36,6 +37,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.LoginPath = "/Auth/Login";
     options.AccessDeniedPath = "/Auth/AccessDenied";
   });
+
+builder.Services.AddAuthorization();
 #endregion
 
 var app = builder.Build();
