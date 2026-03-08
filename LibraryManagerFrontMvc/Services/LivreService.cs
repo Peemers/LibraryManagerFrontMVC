@@ -1,4 +1,5 @@
-﻿using LibraryManagerFrontMvc.Interfaces.Services;
+﻿using LibraryManagerFrontMvc.Dtos.Requests;
+using LibraryManagerFrontMvc.Interfaces.Services;
 using LibraryManagerFrontMvc.Models;
 
 namespace LibraryManagerFrontMvc.Services;
@@ -27,9 +28,22 @@ public class LivreService : ILivreService
 
   public async Task<LivreViewModel?> CreateLivreAsync(LivreViewModel livre)
   {
-    var response = await _client.PostAsJsonAsync("api/Livre", livre);
-    return response.IsSuccessStatusCode
-    ? await response.Content.ReadFromJsonAsync<LivreViewModel>()
-    : null;
+    var dto = new LivreRequestDto()
+    {
+      Nom = livre.Nom,
+      Auteur = livre.Auteur,
+      NbPages = livre.NbPages,
+      Resume = livre.Resume,
+      StatutLivre = livre.StatutLivre,
+      DateDeSortie = livre.DateDeSortie,
+      UrlCouverture = livre.UrlCouverture
+    };
+    
+    var response = await _client.PostAsJsonAsync("api/Livre", dto);
+    if (response.IsSuccessStatusCode)
+    {
+      return await response.Content.ReadFromJsonAsync<LivreViewModel>();
+    }
+    return null;
   }
 }

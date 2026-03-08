@@ -33,4 +33,6 @@ public class LivreViewModel
   [Required]
   [DataType(DataType.Date)]
   public DateTime DateDeSortie { get; set; }
+  
+  public string UrlCouverture { get; set; } = string.Empty;
 }
