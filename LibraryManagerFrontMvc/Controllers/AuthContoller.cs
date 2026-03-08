@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using LibraryManagerFrontMvc.Enums;
 using LibraryManagerFrontMvc.Interfaces.Services;
 using LibraryManagerFrontMvc.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -34,14 +35,15 @@ public class AuthController : Controller
     var result = await _authService.LoginAsync(model);
     if (result != null)
     {
-      HttpContext.Session.SetString("JWtoken", result.Token);
+      HttpContext.Session.SetString("JWToken", result.Token);
       var claims = new List<Claim>
       {
         new Claim(ClaimTypes.Email, result.User.Email),
         new Claim(ClaimTypes.Name, result.User.FirstName),
+        new Claim(ClaimTypes.Role, result.User.Role.ToString()),
       };
 
-      var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
+      var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
       await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
