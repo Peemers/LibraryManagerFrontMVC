@@ -10,6 +10,6 @@ public class LivreRequestDto
   public string Resume { get; set; } = string.Empty;
   public LivreStatut StatutLivre { get; set; }
   public DateTime DateDeSortie { get; set; }
-  public string? UrlCouverture { get; set; } = string.Empty;
+  public string? UrlCouverture { get; set; }
   
 }
