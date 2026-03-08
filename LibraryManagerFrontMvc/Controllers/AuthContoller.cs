@@ -2,6 +2,7 @@
 using LibraryManagerFrontMvc.Interfaces.Services;
 using LibraryManagerFrontMvc.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagerFrontMvc.Controllers;
@@ -33,6 +34,7 @@ public class AuthController : Controller
     var result = await _authService.LoginAsync(model);
     if (result != null)
     {
+      HttpContext.Session.SetString("JWtoken", result.Token);
       var claims = new List<Claim>
       {
         new Claim(ClaimTypes.Email, result.User.Email),
@@ -41,7 +43,7 @@ public class AuthController : Controller
 
       var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
 
-      await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity));
+      await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
       return RedirectToAction("Index", "Livre");
     }
@@ -74,5 +76,13 @@ public class AuthController : Controller
     TempData["Error"] = "Echec d'inscription";
     
     return View(form);
+  }
+  
+  [HttpPost]
+  public async Task<IActionResult> Logout()
+  {
+    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    HttpContext.Session.Clear();
+    return RedirectToAction("Login");
   }
 }
