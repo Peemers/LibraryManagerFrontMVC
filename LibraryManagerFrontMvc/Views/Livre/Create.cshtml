@@ -45,6 +45,11 @@
             </div>
             
             <div class="mb-3">
+                <label asp-for="UrlCouverture" class="form-label">Url Couverture (Optionnel)</label>
+                <input type="url" asp-for="UrlCouverture" class="form-control">
+            </div>
+            
+            <div class="mb-3">
                 <label asp-for="StatutLivre" class="form-label">Statut du livre</label>
                 <select asp-for="StatutLivre" class="form-select">
                     <option value="@LivreStatut.Disponible">Disponible</option>

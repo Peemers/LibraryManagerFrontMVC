@@ -29,17 +29,29 @@
 @*     } *@
 @*     </tbody> *@
 @* </table> *@
+<div class="container mt-4">
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                <div class="card h-100 shadow-sm">
 
-@foreach (var item in Model)
-{
-    <div class="card mt-2" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">@item.Nom</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">@item.Auteur <br> @item.DateDeSortie</h6>
-            <p class="card-text">@item.Resume</p>
-            @* <a href="#" class="card-link">Card link</a> *@
-            @* <a href="#" class="card-link">Another link</a> *@
-        </div>
+                    <img src="@item.UrlCouverture" class="card-img-top" alt="Couverture de @item.Nom" style="height: 250px; object-fit: cover;">
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-truncate">@item.Nom</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            @item.Auteur <br>
+                            <small>@item.DateDeSortie.ToShortDateString()</small>
+                        </h6>
+                        <p class="card-text text-truncate-3">@item.Resume</p>
+
+                        <div class="mt-auto">
+                            <span class="badge bg-info">@item.StatutLivre</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-}
-
+</div>

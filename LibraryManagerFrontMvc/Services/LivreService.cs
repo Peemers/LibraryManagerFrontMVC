@@ -36,7 +36,7 @@ public class LivreService : ILivreService
       Resume = livre.Resume,
       StatutLivre = livre.StatutLivre,
       DateDeSortie = livre.DateDeSortie,
-      UrlCouverture = livre.UrlCouverture
+      UrlCouverture = string.IsNullOrEmpty(livre.UrlCouverture) ? null : livre.UrlCouverture
     };
     
     var response = await _client.PostAsJsonAsync("api/Livre", dto);
